@@ -1,11 +1,16 @@
 # tic-tac-toe
 
+A simple tic-tac-toe game which uses minimax theorem to play optimally against a user with a simple implemented using Vue JS
+
+You can choose to play as either 'X' or 'O'
+Is it possible to win a game against the computer? try and find out... :)
+
 ## Project setup
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Run project in local development server
 ```
 npm run serve
 ```
