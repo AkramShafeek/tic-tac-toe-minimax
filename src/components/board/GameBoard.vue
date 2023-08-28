@@ -126,7 +126,7 @@ export default {
   border-radius: 10px;
   display: flex;
   flex-wrap: wrap;
-  gap: 13px;
+  gap: 25px;
   padding: 13px;  
 }
 

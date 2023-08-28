@@ -26,7 +26,7 @@ export default {
   transition: 200ms ease all;
   cursor: pointer;
   font-size: large;
-  box-shadow: rgba(0, 0, 0, 0.37) 0px 4px 6px -1px, rgba(0, 0, 0, 0.301) 0px 2px 4px -1px;
+  box-shadow: #571a22b9 0px 4px 6px -1px, #75202bc9 0px 2px 4px -1px;
   transform: translateY(-2px);
 }
 

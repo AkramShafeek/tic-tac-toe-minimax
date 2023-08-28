@@ -53,6 +53,7 @@ export default {
   gap: 20px;
   justify-content: center;
   align-items: center;
-  color: rgb(37, 71, 102)
+  color: #e4e4e4;
+  background-color: #d43f53;
 }
 </style>
