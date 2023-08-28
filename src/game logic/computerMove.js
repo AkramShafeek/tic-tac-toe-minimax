@@ -129,10 +129,12 @@ function minimax(board, depth, isMax) {
 }
 
 // This will return the best possible move for the player
-async function findBestMove(board) {
-  let bestVal = 10000;
+function findBestMove(board, player) {
+  let bestVal = player === 'X' ? -10000 : +10000;
   let bestMove = { row: -1, col: -1 };
 
+  if (isMovesLeft(board) === false)
+    return { score: 0, bestMove, isGameOver: true };
   // Traverse all cells, evaluate minimax function for
   // all empty cells. And return the cell with optimal
   // value.
@@ -141,22 +143,28 @@ async function findBestMove(board) {
       // Check if cell is empty
       if (board[i][j] === '_') {
         // Make the move
-        board[i][j] = 'O';
+        board[i][j] = player;
 
         // compute evaluation function for this
         // move.
-        let moveVal = minimax(board, 0, true);
+        let moveVal = minimax(board, 0, player === 'X' ? false : true);
         // Undo the move
         board[i][j] = '_';
 
         // If the value of the current move is
         // more than the best value, then update
         // best
-        if (moveVal.score < bestVal) {
-          if (moveVal.isGameOver)
-            return moveVal;
+        if ((player === 'X' && moveVal.score > bestVal) || (player === 'O' && moveVal.score < bestVal)) {
           bestMove.row = i;
           bestMove.col = j;
+          if (moveVal.isGameOver) {
+            console.log("Return final move");
+            return {
+              score: moveVal.score,
+              bestMove,
+              isGameOver: moveVal.isGameOver
+            };
+          }
           bestVal = moveVal.score;
         }
       }

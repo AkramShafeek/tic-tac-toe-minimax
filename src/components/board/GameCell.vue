@@ -1,7 +1,9 @@
 <template>
-  <div class="game-cell" v-on:click="handler">
+  <div class="game-cell hide-cell" v-on:click="handler" :class="{
+    'show-cell': isShowCell
+  }">
     <h1 class="game-symbol-x hide-symbol" :class="{
-      'show-symbol': isShowSymbol || showCommandFromParent
+      'show-symbol': symbol != '_',
     }">{{ symbol }}</h1>
   </div>
 </template>
@@ -10,25 +12,31 @@
 export default {
   name: 'GameCell',
   data() {
-    return { isShowSymbol: false }
+    return {
+      isShowCell: false
+    }
   },
   props: {
     symbol: {
       type: String,
       default: 'X'
     },
+    transitionDelay: {
+      type: Number,
+      default: 0
+    },
     row: Number,
     col: Number,
-    showCommandFromParent: {
-      type: Boolean,
-      default: false
-    }
   },
   methods: {
     handler() {
-      this.isShowSymbol = !this.isShowSymbol;
       this.$emit('move', { row: this.row, col: this.col });
     }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.isShowCell = true;
+    }, Math.round(this.transitionDelay))
   }
 }
 </script>
@@ -61,10 +69,21 @@ export default {
 
 .hide-symbol {
   scale: 0;
+  opacity: 0;
   transition: 100ms all ease;
 }
 
+.hide-cell {
+  scale: 0;
+  transition: 200ms all ease;
+}
+
 .show-symbol {
+  opacity: 1;
+  scale: 1;
+}
+
+.show-cell {
   scale: 1;
 }
 
