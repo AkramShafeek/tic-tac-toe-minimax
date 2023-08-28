@@ -52,6 +52,7 @@ export default {
   justify-content: center;
   align-items: center;
   transition: 120ms all ease;
+  aspect-ratio: 1 / 1;
 }
 
 .game-cell:hover {
@@ -89,5 +90,12 @@ export default {
 
 .game-symbol-o {
   color: rgb(87, 88, 153)
+}
+
+@media screen and (max-width: 600px) {
+  .game-cell {
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px -1px, rgba(0, 0, 0, 0.06) 0px 1px 3px -1px;
+  }
 }
 </style>

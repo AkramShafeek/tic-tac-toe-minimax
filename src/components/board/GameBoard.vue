@@ -64,7 +64,7 @@ export default {
       const { row, col } = value;
 
       // if clicked on already played cell
-      if (this.board[row][col] != '_')
+      if (this.board[row][col] != '_' || this.isGameOver)
         return;
 
       // player's move
@@ -121,11 +121,20 @@ export default {
 <style>
 .game-board {
   width: 500px;
-  height: 500px;
+  /* height: 500px; */
+  width: 33%;
   border-radius: 10px;
   display: flex;
   flex-wrap: wrap;
   gap: 13px;
-  padding: 13px;
+  padding: 13px;  
+}
+
+@media screen and (max-width: 600px) {
+  .game-board {
+    width: 90%;
+    gap: 9px;
+    height: fit-content;
+  }
 }
 </style>
