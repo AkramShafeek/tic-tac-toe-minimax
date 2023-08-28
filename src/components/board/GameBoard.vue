@@ -29,6 +29,8 @@ export default {
         ['_', '_', '_'],
         ['_', '_', '_']
       ],
+      opponent: '',
+      player: '',
       isGameOver: false,
       winner: '_',
       loading: false,
@@ -37,9 +39,8 @@ export default {
   },
   emits: ['game-over'],
   methods: {
-    opponentMove(player) {
+    opponentMove(opponentSymbol) {
       return new Promise((resolve, reject) => {
-
         // creating a local board for calculating the next move
         const localBoard = [];
         for (let row of this.board) {
@@ -50,7 +51,7 @@ export default {
           localBoard.push(localRow)
         }
 
-        const move = findBestMove(localBoard, player);
+        const move = findBestMove(localBoard, opponentSymbol);
         const { score, bestMove, isGameOver } = move;
 
         if (isGameOver)
@@ -67,19 +68,19 @@ export default {
         return;
 
       // player's move
-      this.board[row][col] = this.playerOption;
+      this.board[row][col] = this.player;
 
       // delaying for 50ms to avoid blocking of response
       setTimeout(() => {
-        this.opponentMove(this.playerOption === 'X' ? 'O' : 'X')
+        this.opponentMove(this.opponent)
           .then((bestMove) => {
             if (bestMove.row !== -1 && bestMove.col !== -1)
-              this.board[bestMove.row][bestMove.col] = this.playerOption === 'X' ? 'O' : 'X';
+              this.board[bestMove.row][bestMove.col] = this.opponent;
           })
           .catch(({ score, bestMove }) => {
             console.log("game over")
             if (bestMove.row !== -1 && bestMove.col !== -1)
-              this.board[bestMove.row][bestMove.col] = this.playerOption === 'X' ? 'O' : 'X';
+              this.board[bestMove.row][bestMove.col] = this.opponent;
             this.isGameOver = true;
             this.winner = score > 0 ? 'X' : (score < 0 ? 'O' : 'draw');
             this.$emit('game-over', this.winner)
@@ -90,22 +91,28 @@ export default {
   },
   mounted() {
     if (this.playerOption == 'O') {
+      this.opponent = 'X';
+      this.player = 'O'
       // after a small delay make the first move as X
       setTimeout(() => {
-        this.opponentMove('X')
+        this.opponentMove(this.opponent)
           .then((bestMove) => {
             if (bestMove.row !== -1 && bestMove.col !== -1)
-              this.board[bestMove.row][bestMove.col] = 'X';
+              this.board[bestMove.row][bestMove.col] = this.opponent;
           })
           .catch(({ score, bestMove }) => {
             console.log("game over")
             if (bestMove.row !== -1 && bestMove.col !== -1)
-              this.board[bestMove.row][bestMove.col] = 'X';
+              this.board[bestMove.row][bestMove.col] = this.opponent;
             this.isGameOver = true;
             this.winner = score > 0 ? 'X' : (score < 0 ? 'O' : 'draw');
             this.$emit('game-over', this.winner)
           })
       }, 1000);
+    }
+    else {
+      this.opponent = 'O';
+      this.player = 'X'
     }
   },
 }
